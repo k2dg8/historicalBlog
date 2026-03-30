@@ -1,0 +1,260 @@
+h1 {
+    text-align: center;
+    font-family: fantasy;
+}
+
+body {
+    background-color: #581e05e5;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center; /* This forces the images to the center */
+    align-items: center;     /* Centers them vertically if they have different heights */
+    gap: 20px;               
+    overflow-x: auto;        /* Keeps the scrollbar if they are too wide */
+    overflow-y: hidden;
+}
+
+.image-container img {
+    width: auto;       /* Tells the image to use its original width */
+    height: auto;      /* Tells the image to use its original height */
+    max-width: none;   /* Removes the default responsive rule that limits width */
+    flex-shrink: 0;    /* If you are using Flexbox, this stops the container from squishing the images */
+}
+.navbar {
+    background-color: #1a1a1a;
+    padding: 15px 0;
+    width: 100%;
+}
+.navbar ul {
+    list-style-type: none; /* Removes the bullet points */
+    margin: 0;
+    padding: 0;
+    display: flex;         /* Puts the links in a horizontal row */
+    justify-content: center; /* Centers the links on the page */
+    gap: 40px;
+}
+.navbar a {
+    color: #ffffff;        /* White text */
+    text-decoration: none; /* Removes the default blue underline */
+    font-size: 18px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    transition: color 0.3s ease; /* Makes the hover color change smooth */
+}
+.navbar a:hover {
+    color: #d3a068; /* Changes to a nice tan/gold color */
+}
+/* Centers the whole form on the page and gives it a background */
+.contact-container {
+    max-width: 500px; /* Prevents the form from getting too wide */
+    margin: 50px auto; /* Centers the box horizontally */
+    padding: 30px;
+    background-color: #f4ece1; /* A light tan color that looks good with brown */
+    border-radius: 8px; /* Rounds the corners of the box */
+    font-family: Arial, sans-serif;
+}
+
+.contact-container h2 {
+    text-align: center;
+    margin-top: 0;
+    color: #1a1a1a;
+}
+
+/* Stacks the form elements vertically */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Adds space between each field */
+}
+
+/* Styles the text labels */
+.contact-form label {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Styles the input boxes and text area */
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box; /* Ensures padding doesn't break the width */
+}
+
+/* Styles the submit button */
+.contact-form button {
+    background-color: #1a1a1a; /* Matches the navbar */
+    color: #ffffff;
+    border: none;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the button */
+.contact-form button:hover {
+    background-color: #d3a068; /* Matches the navbar hover color */
+}
+/* The main footer container */
+.footer {
+    background-color: #1a1a1a; /* Matches your navbar */
+    color: #ffffff;            /* White text */
+    text-align: center;        /* Centers everything inside */
+    padding: 25px 0;           /* Adds space above and below the text */
+    margin-top: 60px;          /* Pushes the footer down from the rest of the page */
+    font-family: Arial, sans-serif;
+}
+
+/* Styles the copyright paragraph */
+.footer p {
+    margin: 0;
+    font-size: 14px;
+    color: #cccccc; /* Slightly dimmed white so it isn't too distracting */
+}
+
+/* Styles the list holding the links */
+.footer-links {
+    list-style-type: none; /* Removes bullet points */
+    padding: 0;
+    margin: 15px 0 0 0;    /* Adds a little space between the copyright and the links */
+    display: flex;         /* Puts the links in a horizontal row */
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Styles the actual links */
+.footer-links a {
+    color: #d3a068;        /* Uses the gold/tan color from your navbar hover effect */
+    text-decoration: none; /* Removes the underline */
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+/* What happens when you hover over the footer links */
+.footer-links a:hover {
+    color: #ffffff;        /* Flips to white on hover */
+}
+/* Container for the whole trending section */
+.trending-section {
+    max-width: 1100px;
+    margin: 60px auto; /* Adds spacing above and below the section */
+    padding: 0 20px;
+    font-family: Arial, sans-serif;
+}
+
+/* The section title */
+.trending-section h2 {
+    text-align: center;
+    color: #1a1a1a;
+    font-size: 32px;
+    margin-bottom: 40px;
+}
+
+/* CSS Grid to hold the cards */
+.trending-grid {
+    display: grid;
+    /* This creates responsive columns that are at least 300px wide */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 30px; /* Space between the cards */
+}
+
+/* Styling the individual cards */
+.post-card {
+    background-color: #f4ece1; /* Light tan from the contact form */
+    border-radius: 8px;
+    overflow: hidden; /* Ensures the top corners of the image stay rounded */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a subtle drop shadow */
+    transition: transform 0.3s ease; /* Smooth animation for hover */
+}
+
+/* Makes the card lift up slightly when hovered */
+.post-card:hover {
+    transform: translateY(-8px);
+}
+
+/* The thumbnail image inside the card */
+.post-card img {
+    width: 100%;
+    height: 220px; /* Forces all images to be the same height */
+    object-fit: cover; /* Prevents stretching */
+    display: block;
+}
+
+/* The text area inside the card */
+.post-content {
+    padding: 25px;
+}
+
+.post-content h3 {
+    margin: 0 0 10px 0;
+    color: #1a1a1a;
+    font-size: 22px;
+}
+
+.post-content p {
+    color: #555555;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+/* The Read More button */
+.read-more {
+    display: inline-block;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the button */
+.read-more:hover {
+    background-color: #d3a068; /* Matches the navbar hover color */
+    color: #1a1a1a;
+}
+/* --- ADMIN PAGE STYLES --- */
+.admin-container {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.messages-table {
+    width: 100%;
+    border-collapse: collapse; /* Merges double borders into single solid lines */
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.messages-table th, 
+.messages-table td {
+    border: 1px solid #ccc;
+    padding: 15px;
+    text-align: left;
+}
+
+/* Style the table headers to match your dark theme */
+.messages-table th {
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+/* Zebra-striping the rows makes them easier to read */
+.messages-table tr:nth-child(even) {
+    background-color: #f4ece1; /* Your tan accent color */
+}
+
+.messages-table tr:nth-child(odd) {
+    background-color: #ffffff;
+}

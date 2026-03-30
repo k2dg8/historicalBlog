@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Inbox</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <ul>
+            <li><a href="homepage.html">Home</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="admin.html">Admin</a></li>
+        </ul>
+    </nav>
+
+    <div class="admin-container">
+        <h2>Inbox (Admin)</h2>
+
+        <div id="login-section" style="text-align: center; margin-bottom: 30px;">
+            <input type="password" id="admin-password" placeholder="Enter Admin Password" style="padding: 10px; font-size: 16px;">
+            <button id="login-btn" style="padding: 10px 20px; background-color: #1a1a1a; color: white; cursor: pointer; border: none;">Login</button>
+            <p id="login-error" style="color: red; display: none;">Incorrect password!</p>
+        </div>
+
+        <table class="messages-table" id="messages-table" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody id="messages-body">
+                <tr><td colspan="4">Loading messages...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
