@@ -6,7 +6,7 @@ const session = require('express-session');
 const nodemailer = require('nodemailer');
 
 const app = express();
-// UPDATED: Use the cloud provider's port or default to 3000
+// Use the cloud provider's port or default to 3000
 const PORT = process.env.PORT || 3000;
 
 // --- MIDDLEWARE ---
@@ -28,7 +28,6 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-// Check if email connection is working on startup
 transporter.verify((error) => {
     if (error) console.log("❌ Email Connection Error:", error.message);
     else console.log("✅ Server is ready to send emails!");
@@ -51,39 +50,23 @@ async function sendSecurityAlert(subject, text) {
 // --- DATABASE SETUP (SQLite) ---
 const db = new sqlite3.Database('./database.db', (err) => {
     if (err) console.error("Database connection error:", err.message);
-    else console.log("Connected to the SQLite database.");
 });
 
 db.serialize(() => {
-    // 1. Posts table for the gallery
-    db.run(`CREATE TABLE IF NOT EXISTS posts (
-        id INTEGER PRIMARY KEY AUTOINCREMENT, 
-        title TEXT, 
-        description TEXT, 
-        imageUrl TEXT
-    )`);
-
-    // 2. Messages table for the contact form
-    db.run(`CREATE TABLE IF NOT EXISTS messages (
-        id INTEGER PRIMARY KEY AUTOINCREMENT, 
-        name TEXT, 
-        email TEXT, 
-        message TEXT, 
-        date_submitted DATETIME DEFAULT CURRENT_TIMESTAMP
-    )`);
-
-    // 3. Security table to track failed logins
-    db.run(`CREATE TABLE IF NOT EXISTS login_attempts (
-        ip TEXT PRIMARY KEY, 
-        attempts INTEGER DEFAULT 0,
-        last_attempt DATETIME DEFAULT CURRENT_TIMESTAMP
-    )`);
+    db.run(`CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, description TEXT, imageUrl TEXT)`);
+    db.run(`CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT, message TEXT, date_submitted DATETIME DEFAULT CURRENT_TIMESTAMP)`);
+    db.run(`CREATE TABLE IF NOT EXISTS login_attempts (ip TEXT PRIMARY KEY, attempts INTEGER DEFAULT 0, last_attempt DATETIME DEFAULT CURRENT_TIMESTAMP)`);
 });
 
-// Serve your HTML, CSS, and JS files
+// Serve static files (CSS, JS, Images)
 app.use(express.static(__dirname));
 
-// --- API ROUTES ---
+// --- ROUTES ---
+
+// ⭐ FIX: Root Route - This tells the browser to show homepage.html when you visit the main URL
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'homepage.html'));
+});
 
 // Get Trending Posts for Homepage
 app.get('/api/trending', (req, res) => {
@@ -108,7 +91,6 @@ app.post('/api/contact', (req, res) => {
 app.post('/api/login', (req, res) => {
     const { password } = req.body;
     
-    // Standardize IP address
     let clientIp = req.ip.replace('::ffff:', '');
     if (clientIp === '::1') clientIp = '127.0.0.1';
 
@@ -116,11 +98,8 @@ app.post('/api/login', (req, res) => {
         let currentAttempts = row ? row.attempts : 0;
 
         if (password === process.env.ADMIN_PASSWORD) {
-            // LOGIN SUCCESS
             db.run("INSERT OR REPLACE INTO login_attempts (ip, attempts) VALUES (?, 0)", [clientIp]);
-            console.log(`✅ Success: ${clientIp} logged in.`);
-
-            // Alert if the IP isn't yours
+            
             if (clientIp !== process.env.AUTHORIZED_IP) {
                 sendSecurityAlert("New IP Login", `Successful login from unrecognized IP: ${clientIp}`);
             }
@@ -128,12 +107,9 @@ app.post('/api/login', (req, res) => {
             req.session.isLoggedIn = true;
             res.json({ success: true });
         } else {
-            // LOGIN FAILURE
             currentAttempts++;
             db.run("INSERT OR REPLACE INTO login_attempts (ip, attempts, last_attempt) VALUES (?, ?, CURRENT_TIMESTAMP)", [clientIp, currentAttempts]);
-            console.log(`❌ Failed attempt #${currentAttempts} from: ${clientIp}`);
 
-            // Alert on 3rd failure
             if (currentAttempts >= 3) {
                 sendSecurityAlert("Brute Force Detected", `Multiple failed attempts from IP: ${clientIp}`);
             }
@@ -154,7 +130,7 @@ app.get('/api/messages', (req, res) => {
     });
 });
 
-// --- START THE SERVER ---
+// --- START ---
 app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
