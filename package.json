@@ -4,8 +4,8 @@
   "description": "Full-stack travel blog with secure admin inbox",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+  "start": "node server.js",
+  "build": "npm install && npm rebuild sqlite3 --build-from-source"
   },
   "keywords": [],
   "author": "",
